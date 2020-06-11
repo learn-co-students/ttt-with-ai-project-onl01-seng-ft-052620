@@ -1,3 +1,6 @@
+require 'pry'
+
+
 class Game
     attr_accessor :board, :player_1, :player_2
 
@@ -38,6 +41,8 @@ WIN_COMBINATIONS = [
 
     def turn
         player = current_player
+        puts "Howdy #{player.token} you are up!"
+        @board.display
         input = player.move(@board)
         if @board.valid_move?(input)
         @board.update(input, player)
@@ -52,6 +57,8 @@ WIN_COMBINATIONS = [
             turn
           end
           if won?
+            puts ''
+            @board.display
             puts "Congratulations #{winner}!"
           else
             puts "Cat's Game!"
@@ -66,3 +73,4 @@ WIN_COMBINATIONS = [
 
 
 end
+

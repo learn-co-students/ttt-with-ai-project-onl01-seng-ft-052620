@@ -9,6 +9,7 @@ module Players
             if !board.valid_move?(5)
                 move = moves.sample;
                 if move = moves.sample; board.valid_move?(move)
+                    move+=1
                     move = move.to_s
             end
 
