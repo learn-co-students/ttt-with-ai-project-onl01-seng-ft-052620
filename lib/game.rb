@@ -27,7 +27,6 @@ class Game
 
   def won? 
     WIN_COMBINATIONS.each do |subarray|
-        binding.pry
         if @cells[subarray[0]] == @cells[subarray[1]] && @cells[subarray[1]] == @cells[subarray[2]]
             return subarray 
         end 
