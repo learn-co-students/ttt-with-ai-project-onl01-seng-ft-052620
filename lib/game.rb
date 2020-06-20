@@ -1,3 +1,5 @@
+require 'pry'
+
 class Game 
 
     attr_accessor :board, :player_1, :player_2
@@ -27,12 +29,55 @@ class Game
 
   def won? 
     WIN_COMBINATIONS.each do |subarray|
-        if @cells[subarray[0]] == @cells[subarray[1]] && @cells[subarray[1]] == @cells[subarray[2]]
+        if board.cells[subarray[0]] == board.cells[subarray[1]] && board.cells[subarray[1]] == board.cells[subarray[2]]
             return subarray 
         end 
     end
     false
   end 
+  
+  def draw? 
+    board.full? && !won?
+  end 
+  
+  def over? 
+    won? || draw? 
+  end 
+  
+  def winner 
+    winning_row = won?
+    if board.cells[winning_row[0]] == 'X' 
+      'X'
+      elsif  board.cells[winning_row[0]] == 'O'
+      'O'
+    else 
+      nil 
+    end 
+  end 
+  
+  def turn
+    puts "Put a number between 1-9:"
+    input = current_player.move(board)
+    if board.valid_move?(input)
+        board.update(input, current_player)
+      else 
+        turn
+      end 
+  end 
+  
+  def play 
+    while !over?
+    turn 
+    end
+    if winner
+        puts "Congratulations #{winner}!"
+      else
+        puts "Cat's Game!"
+      end
+end 
+
+
+  
 
  
 
