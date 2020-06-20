@@ -1,5 +1,3 @@
-require 'pry'
-
 class Game 
 
     attr_accessor :board, :player_1, :player_2
@@ -29,7 +27,7 @@ class Game
 
   def won? 
     WIN_COMBINATIONS.each do |subarray|
-        if board.cells[subarray[0]] == board.cells[subarray[1]] && board.cells[subarray[1]] == board.cells[subarray[2]]
+        if board.cells[subarray[0]] == board.cells[subarray[1]] && board.cells[subarray[1]] == board.cells[subarray[2]] && board.taken?(subarray[0] + 1)
             return subarray 
         end 
     end
@@ -46,12 +44,12 @@ class Game
   
   def winner 
     winning_row = won?
-    if board.cells[winning_row[0]] == 'X' 
-      'X'
-      elsif  board.cells[winning_row[0]] == 'O'
-      'O'
-    else 
-      nil 
+    if winning_row
+      if board.cells[winning_row[0]] == 'X' 
+        'X'
+      else  
+        'O'
+      end 
     end 
   end 
   
@@ -72,13 +70,9 @@ def play
     end 
     if won? 
       puts "Congratulations #{winner}!"
-    else 
+    elsif draw? 
       puts "Cat's Game!"
     end 
   end 
-
-  
-
- 
 
 end 
