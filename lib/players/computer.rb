@@ -2,27 +2,43 @@ module Players
   class Computer < Player
 
     def move(board)
-      if board.cells[4] == " "
+      if !board.taken?("5")
         "5"
-      elsif board.cells[0] == " "
-        "1"
-      elsif board.cells[2] == " "
-        "3"
-      elsif board.cells[6] == " "
-        "7"
-      elsif board.cells[8] == " "
-        "9"
-      elsif board.cells[1] == " "
-        "2"
-      elsif board.cells[3] == " "
-        "4"
-      elsif board.cells[5] == " "
-        "6"
-      elsif board.cells[7] == " "
-        "8"
+      elsif !take_corner(board).empty?
+       take_corner(board).sample
+     else random(board)
+      end
+    end
+
+    def take_corner(board)
+      corners = ["1","3","7","9"]
+      corners.select { |move| !board.taken?(move)}
+    end
+
+    def random(board)
+      move = (1..9).to_a
+      move.sample.to_s
+    end
+    
+   def opponent_token
+      if self.token == "X"
+        "O"
+      else
+        "X"
+      end
+    end
+
+    def block_game(board)
+      Game::WIN_COMBINATIONS.each do |combo|
+          if board.cells[combo[0]] == board.cells[combo[1]] && board.cells[combo[0]] == " "
+            return combo[2]
+          elsif board.cells[combo[0]] == board.cells[combo[2]] && board.cells[combo[0]] == " "
+            return combo[1]
+          elsif board.cells[combo[1]] == board.cells[combo[2]] && board.cells[combo[1]] == " "
+            return combo[0]
+          end
+        end
       end
 
     end
-
   end
-end
